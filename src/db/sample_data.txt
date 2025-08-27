@@ -1,0 +1,6 @@
+INSERT INTO frame_set VALUES
+                          ('CycleMate', 'CM03445', 50, '50/34', 'FrameOne', 85.50, 47),
+                          ('TrailTax', 'TT07211', 48, '53/19', 'FrameTwo', 102.10, 21),
+                          ('CycleMate', 'CM09401', 57, '39/14', 'FrameThree', 94.99, 33),
+                          ('TrailTax', 'TT04922', 52, '52/36', 'FrameFour', 91.60, 40),
+                          ('TrailTax', 'TT02187', 48, '50/34','FrameFive', 115.20, 12)

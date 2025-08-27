@@ -1,0 +1,84 @@
+CREATE TABLE wheels(
+    WheelBrandName VARCHAR(30) NOT NULL,
+    WheelSerialNumber VARCHAR(30) NOT NULL,
+    Diameter INT NOT NULL,
+    BrakeSystem VARCHAR(4) NOT NULL,
+    BrakeLevers VARCHAR(10) NOT NULL,
+    TireStyle VARCHAR(8) NOT NULL,
+    ProductName VARCHAR(30) NOT NULL,
+    UnitCost DECIMAL(5, 2) NOT NULL,
+    Stock INT NOT NULL,
+    PRIMARY KEY (WheelBrandName, WheelSerialNumber)
+);
+
+CREATE TABLE handlebars(
+    HBBrandName VARCHAR(30) NOT NULL,
+    HBSerialNumber VARCHAR(30) NOT NULL,
+    Style VARCHAR(8) NOT NULL,
+    ProductName VARCHAR(30) NOT NULL,
+    UnitCost DECIMAL(5, 2) NOT NULL,
+    Stock INT NOT NULL,
+    PRIMARY KEY (HBBrandName, HBSerialNumber)
+);
+
+CREATE TABLE frame_set(
+    FSBrandName VARCHAR(30) NOT NULL,
+    FSSerialNumber VARCHAR(30) NOT NULL,
+    Size INT NOT NULL,
+    Gears VARCHAR(10) NOT NULL,
+    Suspension VARCHAR(5) NOT NULL,
+    ProductName VARCHAR(30) NOT NULL,
+    UnitCost DECIMAL(5, 2) NOT NULL,
+    Stock INT NOT NULL,
+    PRIMARY KEY (FSBrandName, FSSerialNumber)
+);
+
+CREATE TABLE bike(
+    BikeSerialNumber VARCHAR(30) UNIQUE NOT NULL PRIMARY KEY,
+    CustomName VARCHAR(30) NOT NULL,
+    FSBrandName VARCHAR(30) NOT NULL,
+    FSSerialNumber VARCHAR(30) NOT NULL,
+    HBBrandName VARCHAR(30) NOT NULL,
+    HBSerialNumber VARCHAR(30) NOT NULL,
+    WheelBrandName VARCHAR(30) NOT NULL,
+    WheelSerialNumber VARCHAR(30) NOT NULL,
+    ShockAbsorber BOOLEAN NOT NULL,
+    BikeBrandName VARCHAR(30) NOT NULL,
+    TotalCost DECIMAL(5, 2) NOT NULL,
+    FOREIGN KEY (FSBrandName, FSSerialNumber) REFERENCES frame_set(FSBrandName, FSSerialNumber),
+    FOREIGN KEY (HBBrandName, HBSerialNumber) REFERENCES handlebars(HBBrandName, HBSerialNumber),
+    FOREIGN KEY (WheelBrandName, WheelSerialNumber) REFERENCES wheels(WheelBrandName, WheelSerialNumber)
+);
+
+CREATE TABLE staff(
+    Username VARCHAR(10) UNIQUE NOT NULL PRIMARY KEY,
+    Password VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE addresses(
+    HouseIdentifier VARCHAR(30) NOT NULL,
+    PostCode VARCHAR(10) NOT NULL,
+    RoadName VARCHAR(30) NOT NULL,
+    CityName VARCHAR(30) NOT NULL,
+    PRIMARY KEY (HouseIdentifier, PostCode)
+);
+
+CREATE TABLE customers(
+    CustomerID INT UNIQUE NOT NULL PRIMARY KEY,
+    HouseIdentifier VARCHAR(30) NOT NULL,
+    PostCode VARCHAR(10) NOT NULL,
+    FirstName VARCHAR(30) NOT NULL,
+    LastName VARCHAR(30) NOT NULL,
+    FOREIGN KEY (HouseIdentifier, PostCode) REFERENCES addresses(HouseIdentifier, PostCode)
+);
+
+CREATE TABLE orders(
+    OrderID INT UNIQUE NOT NULL PRIMARY KEY,
+    CustomerID INT NOT NULL,
+    BikeSerialNumber VARCHAR(30) NOT NULL,
+    ConfirmedBy VARCHAR(10),
+    OrderDate DATE NOT NULL,
+    Status VARCHAR(9),
+    FOREIGN KEY (CustomerID) REFERENCES customers(CustomerID),
+    FOREIGN KEY (BikeSerialNumber) REFERENCES bike(BikeSerialNumber)
+);
